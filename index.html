@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aanies.github.io | Security Lab</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --accent: #58a6ff;
+            --text: #c9d1d9;
+            --danger: #f85149;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 20px;
+        }
+
+        h1 { color: var(--accent); }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            background: var(--bg-color);
+            border: 1px solid #30363d;
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #238636;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover { background-color: #2ea043; }
+
+        #terminal-output {
+            background: black;
+            color: #39ff14;
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            border-radius: 4px;
+            min-height: 50px;
+            margin-top: 10px;
+        }
+
+        .warning-text {
+            color: var(--danger);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Welcome to aanies.github.io</h1>
+            <p>Static Security Testing Sandbox</p>
+        </header>
+
+        <section class="card">
+            <h3>🤖 Bot Interaction Test</h3>
+            <div class="form-group">
+                <input type="text" id="botInput" placeholder="Type a command (e.g., /status, /hello)...">
+            </div>
+            <button onclick="testBot()">Send to Bot</button>
+            <div id="terminal-output">> System ready...</div>
+        </section>
+
+        <section class="card">
+            <h3>🛡️ OWASP Top 10 Test Lab</h3>
+            <p>Use the fields below to test how the browser handles various injection strings.</p>
+            
+            <div class="form-group">
+                <label>XSS (Cross-Site Scripting) Test</label>
+                <input type="text" id="xssInput" placeholder="<script>alert('XSS')</script>">
+                <p class="warning-text">Tests if the input is executed as HTML/JS.</p>
+            </div>
+
+            <div class="form-group">
+                <label>SQL Injection (SQLi) Mock Test</label>
+                <input type="text" id="sqliInput" placeholder="' OR '1'='1">
+                <p class="warning-text">Simulates data entry for database queries.</p>
+            </div>
+
+            <button onclick="runSecurityTests()">Run Simulation</button>
+        </section>
+    </div>
+
+    <script>
+        // Simple Bot Logic
+        function testBot() {
+            const input = document.getElementById('botInput').value;
+            const output = document.getElementById('terminal-output');
+            
+            if (input.toLowerCase().includes('/hello')) {
+                output.innerText = "> Bot: Hello! How can I assist with your security testing today?";
+            } else if (input.toLowerCase().includes('/status')) {
+                output.innerText = "> Bot: All systems operational. WAF simulation active.";
+            } else {
+                output.innerText = "> Bot: Command '" + input + "' received but not recognized.";
+            }
+        }
+
+        // Security Test Logic
+        function runSecurityTests() {
+            const xssVal = document.getElementById('xssInput').value;
+            const sqliVal = document.getElementById('sqliInput').value;
+
+            // Log to console for dev-tool inspection
+            console.log("Testing XSS Input:", xssVal);
+            console.log("Testing SQLi Input:", sqliVal);
+
+            alert("Inputs captured. Check the Browser Console (F12) to see how the data was processed.");
+        }
+    </script>
+</body>
+</html>
